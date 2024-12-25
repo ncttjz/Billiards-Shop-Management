@@ -6,18 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class Login {
-    public static void main(String[] args) {
-        new Login();
-    }
+public class Login extends JPanel {
+    private Runnable onLoginSuccess; // Callback để thông báo đăng nhập thành công
 
-    public Login() {
-        JFrame frame = new JFrame("Login");
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Admin\\Desktop\\JzncttProJect\\icon.ico"));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(350, 250);
-        frame.setResizable(false);
-        frame.setLayout(null); // Sử dụng null layout
+    public Login(Runnable onLoginSuccess) {
+        this.onLoginSuccess = onLoginSuccess;
+
+        setLayout(null); // Sử dụng null layout
+        setPreferredSize(new Dimension(350, 250)); // Đặt kích thước cố định cho JPanel
 
         // Username label và field
         JLabel userLabel = new JLabel("Username:");
@@ -43,16 +39,21 @@ public class Login {
 
         // Thông báo
         JLabel messageLabel = new JLabel("", SwingConstants.CENTER);
-        messageLabel.setBounds(50, 150, 250, 20);
+        messageLabel.setBounds(50, 138, 250, 30);
         messageLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 
-        // Thêm các thành phần vào frame
-        frame.add(userLabel);
-        frame.add(userField);
-        frame.add(passLabel);
-        frame.add(passField);
-        frame.add(loginButton);
-        frame.add(messageLabel);
+        JLabel messageLabel2 = new JLabel("", SwingConstants.CENTER);
+        messageLabel2.setBounds(50, 162, 250, 30);
+        messageLabel2.setFont(new Font("Arial", Font.PLAIN, 12));
+
+        // Thêm các thành phần vào panel
+        add(userLabel);
+        add(userField);
+        add(passLabel);
+        add(passField);
+        add(loginButton);
+        add(messageLabel);
+        add(messageLabel2);
 
         // ActionListener cho nút login
         loginButton.addActionListener(new ActionListener() {
@@ -63,16 +64,25 @@ public class Login {
 
                 if (authenticate(username, password)) {
                     messageLabel.setText("Đăng nhập thành công!");
+                    messageLabel2.setText("Đang chuyển tới màn hình chính...");
                     messageLabel.setForeground(Color.GREEN);
+                    messageLabel2.setForeground(Color.GREEN);
+
+                    // Hiển thị thông báo trong 2 giây, sau đó chuyển giao diện
+                    Timer timer = new Timer(2000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            onLoginSuccess.run(); // Gọi callback để chuyển giao diện
+                        }
+                    });
+                    timer.setRepeats(false); // Chỉ chạy 1 lần
+                    timer.start();
                 } else {
                     messageLabel.setText("Tài khoản hoặc mật khẩu không chính xác.");
                     messageLabel.setForeground(Color.RED);
                 }
             }
         });
-
-        frame.setLocationRelativeTo(null); // Căn giữa cửa sổ
-        frame.setVisible(true);
     }
 
     private boolean authenticate(String username, String password) {
