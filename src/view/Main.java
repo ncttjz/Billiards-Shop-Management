@@ -2,7 +2,8 @@ package view;
 
 import javax.swing.*;
 import net.miginfocom.swing.MigLayout;
-import model.Login;
+import view.pages.Login;
+import java.awt.Toolkit;
 
 public class Main extends JFrame {
     private JPanel contentPane;
@@ -25,14 +26,14 @@ public class Main extends JFrame {
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.setSize(350, 250);
         loginFrame.setResizable(false);
-        loginFrame.setLayout(new MigLayout("fill", "[fill]", "[fill]"));
+        loginFrame.getContentPane().setLayout(new MigLayout("fill", "[fill]", "[fill]"));
 
         Login loginPanel = new Login(() -> {
             loginFrame.dispose(); // Đóng cửa sổ đăng nhập
             showMainWindow(); // Mở giao diện chính
         });
 
-        loginFrame.add(loginPanel, "grow");
+        loginFrame.getContentPane().add(loginPanel, "grow");
         loginFrame.setLocationRelativeTo(null); // Hiển thị giữa màn hình
         loginFrame.setVisible(true);
     }
@@ -46,19 +47,21 @@ public class Main extends JFrame {
     }
 
     public Main() {
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/images/icon.png")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(-5, 0, 1554, 680);
         setTitle("Billards Shop Management");
         setResizable(false);
 
-        contentPane = new JPanel(new MigLayout("fillx, filly", "0[220!]0[fill, 100%]0", "0[fill]0"));
+        contentPane = new JPanel(new MigLayout("fillx, filly", "[220!]0[fill, 100%]0", "0[fill]0"));
         setContentPane(contentPane);
 
-        // Thêm Sidebar và Body
-        Sidebar sidebar = new Sidebar();
-        contentPane.add(sidebar, "width 220:220:220");
-
+        // Tạo Body trước, sau đó truyền vào Sidebar để Sidebar có thể tương tác với Body
         Body body = new Body();
-        contentPane.add(body, "grow");
+        Sidebar sidebar = new Sidebar(body);  // Chuyển đối tượng body vào Sidebar
+
+        // Thêm Sidebar và Body vào contentPane
+        contentPane.add(sidebar, "width 220:220:220"); // Sidebar nằm bên trái với chiều rộng 220px
+        contentPane.add(body, "grow"); // Body chiếm phần còn lại
     }
 }

@@ -1,73 +1,42 @@
 package view;
 
-import javax.swing.JPanel;
-
+import javax.swing.*;
+import java.awt.*;
 import view.pages.QL_Ban;
-import view.pages.QL_DoanhThu;
-import view.pages.QL_NhanVien;
-import view.pages.QL_Thong_ke;
-import view.pages.QL_ThucDon;
+import view.pages.StatusOfTable;
 
-import java.awt.CardLayout;
-import java.awt.Color;
-import javax.swing.JLabel;
+public class Body extends JPanel {
+    private CardLayout cardLayout;
+    private JPanel cardPanel;
+    private QL_Ban ban;
+    private StatusOfTable info;
 
-public class Body extends JPanel{
-	private CardLayout cardLayout;
-	private QL_Ban ban;
-	private QL_ThucDon thucdon;
-	private QL_NhanVien nhanvien;
-	private QL_DoanhThu doanhthu;
-	private QL_Thong_ke thongke;
-	
-	 public Body() {
-	 	setBackground(new Color(0, 0, 0));
-		 setSize(1050, 660);
-		 cardLayout = new CardLayout(0, 0);
-		 setLayout(cardLayout);
-		 
-			ban = new QL_Ban();
-			add(ban, "ban");	
-			
-			thucdon = new QL_ThucDon();
-			add(thucdon, "thucdon");
-			
-			nhanvien = new QL_NhanVien();
-			add(nhanvien, "nhanvien");
-			
-			doanhthu = new QL_DoanhThu();
-			add(doanhthu, "doanhthu");
-			
-			thongke = new QL_Thong_ke();
-			add(thongke, "thongke");	
-			
-		}
+    public Body() {
+        setBackground(new Color(255, 255, 255));
+        setSize(1050, 660);
+        setLayout(new BorderLayout());
 
-		public CardLayout getCardLayout() {
-			return cardLayout;
-		}
+        cardLayout = new CardLayout();
+        cardPanel = new JPanel(cardLayout);
 
-		public QL_DoanhThu getDoanhthu() {
-			return doanhthu;
-		}
+        ban = new QL_Ban();
+        info = new StatusOfTable();
 
-		public QL_Ban getKhosach() {
-			return ban;
-		}
+        cardPanel.add(ban, "Quản lý bàn");
+        cardPanel.add(info, "Thông tin bàn");
 
-		public QL_ThucDon getKhachhang() {
-			return thucdon;
-		}
+        add(cardPanel, BorderLayout.CENTER);
 
-		public QL_NhanVien getNhanvien() {
-			return nhanvien;
-		}
+        cardLayout.show(cardPanel, "Quản lý bàn");
+    }
 
+    // Phương thức để chuyển đổi giữa các tab
+    public void showTab(String tabName) {
+        cardLayout.show(cardPanel, tabName);
+    }
 
-		public QL_Thong_ke getThongke() {
-			return thongke;
-		}
-		
-	 
-
+    // Getter để truy cập tab "Thông tin bàn"
+    public StatusOfTable getInfo() {
+        return info;
+    }
 }

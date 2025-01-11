@@ -4,13 +4,11 @@ import java.util.Date;
 
 public class Model_Ban {
 	private int maBan;
-	private String tenKhach;
 	private Date batDau;
 	private Date ketThuc;
-	public Model_Ban(int maBan, String tenKhach, Date batDau, Date ketThuc, String luaChon) {
+	public Model_Ban(int maBan, Date batDau, Date ketThuc, String luaChon) {
 		super();
 		this.maBan = maBan;
-		this.tenKhach = tenKhach;
 		this.batDau = batDau;
 		this.ketThuc = ketThuc;
 	}
@@ -20,12 +18,6 @@ public class Model_Ban {
 	}
 	public void setMaBan(int maBan) {
 		this.maBan = maBan;
-	}
-	public String getTenKhach() {
-		return tenKhach;
-	}
-	public void setTenKhach(String tenKhach) {
-		this.tenKhach = tenKhach;
 	}
 	public Date getBatDau() {
 		return batDau;

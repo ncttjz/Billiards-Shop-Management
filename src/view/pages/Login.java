@@ -1,4 +1,4 @@
-package model;
+package view.pages;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +36,11 @@ public class Login extends JPanel {
         // Nút login
         JButton loginButton = new JButton("Login");
         loginButton.setBounds(130, 110, 80, 30);
-
+        loginButton.setBackground(new Color(0, 123, 255)); // Màu xanh dương cho nút
+        loginButton.setForeground(Color.WHITE);
+        loginButton.setFont(new Font("Arial", Font.BOLD, 14));
+        loginButton.setFocusPainted(false);
+        loginButton.setBorder(BorderFactory.createLineBorder(new Color(0, 123, 255), 2));
         // Thông báo
         JLabel messageLabel = new JLabel("", SwingConstants.CENTER);
         messageLabel.setBounds(50, 138, 250, 30);
@@ -69,7 +73,7 @@ public class Login extends JPanel {
                     messageLabel2.setForeground(Color.GREEN);
 
                     // Hiển thị thông báo trong 2 giây, sau đó chuyển giao diện
-                    Timer timer = new Timer(2000, new ActionListener() {
+                    Timer timer = new Timer(1500, new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             onLoginSuccess.run(); // Gọi callback để chuyển giao diện
