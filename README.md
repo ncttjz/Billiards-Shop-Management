@@ -1,1 +1,2 @@
-This application help people who is billards shop manager to solve time to money and order food,drinks.
+# Billiards Shop Management
+This just my OOP final project, i hope it's useful for you <3
